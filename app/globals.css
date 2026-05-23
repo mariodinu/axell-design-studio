@@ -1,0 +1,31 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #06060D;
+  --surface: #0D0D1A;
+  --surface2: #13131F;
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(0,210,255,0.25);
+  --accent: #00D2FF;
+  --accent-dim: rgba(0,210,255,0.12);
+  --accent-glow: rgba(0,210,255,0.06);
+  --text: #F0F0FF;
+  --text-sec: #7A7A9A;
+  --text-dim: #44445A;
+  --sidebar-w: 240px;
+}
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; font-family: inherit; }
+input, textarea { font-family: inherit; }
+a { text-decoration: none; color: inherit; }
