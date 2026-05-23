@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axell Design Studio — AI Marketing, Built to Perform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #06060D;
+    --surface: #0D0D1A;
+    --surface2: #13131F;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(0,210,255,0.25);
+    --accent: #00D2FF;
+    --accent-dim: rgba(0,210,255,0.12);
+    --accent-glow: rgba(0,210,255,0.06);
+    --text: #F0F0FF;
+    --text-sec: #7A7A9A;
+    --text-dim: #44445A;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── GLOW ORBS ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 { width: 600px; height: 600px; background: rgba(0,210,255,0.07); top: -200px; right: -150px; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(0,100,200,0.08); bottom: 10%; left: -100px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    background: rgba(6,6,13,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--text-sec);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #000 !important;
+    font-weight: 600;
+    font-size: 13px !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    transition: opacity 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-bright);
+    border-radius: 99px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 7vw, 88px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .highlight {
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero h1 .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    border-radius: 2px;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--text-sec);
+    max-width: 560px;
+    line-height: 1.65;
+    margin-bottom: 40px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 40px rgba(0,210,255,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 60px rgba(0,210,255,0.45);
+  }
+
+  .btn-ghost {
+    color: var(--text-sec);
+    font-size: 15px;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--border-bright); color: var(--text); }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 64px;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    display: block;
+  }
+  .stat-label { font-size: 12px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.08em; }
+  .stat-div { width: 1px; height: 40px; background: var(--border); }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    position: relative;
+    z-index: 1;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: marquee 25s linear infinite;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 40px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: 0.5; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 18px;
+    color: var(--text-sec);
+    max-width: 520px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── PRODUCTS GRID ── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .product-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-4px);
+  }
+  .product-card:hover::before { opacity: 1; }
+
+  .product-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, var(--surface2), var(--surface));
+    border-color: var(--border-bright);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .card-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--text-sec);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text-sec);
+  }
+
+  .card-visual {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mock-bar {
+    height: 10px;
+    border-radius: 99px;
+    background: var(--border);
+  }
+  .mock-bar.accent { background: var(--accent); width: 60%; opacity: 0.7; }
+  .mock-bar.short { width: 40%; }
+  .mock-bar.med { width: 75%; }
+
+  .mock-img {
+    height: 80px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent-dim), rgba(0,100,200,0.1));
+    border: 1px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 56px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .step {
+    background: var(--surface);
+    padding: 40px 32px;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 800;
+    color: var(--accent-dim);
+    line-height: 1;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .step-desc { font-size: 14px; color: var(--text-sec); line-height: 1.7; }
+
+  /* ── PRICING ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .price-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s;
+  }
+
+  .price-card.popular {
+    border-color: var(--accent);
+    position: relative;
+    background: linear-gradient(180deg, rgba(0,210,255,0.05) 0%, var(--surface) 60%);
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 99px;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .price-name {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-sec);
+    margin-bottom: 12px;
+  }
+
+  .price-amount {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+  .price-amount sup { font-size: 20px; vertical-align: top; margin-top: 12px; display: inline-block; }
+  .price-period { font-size: 13px; color: var(--text-sec); margin-bottom: 28px; }
+
+  .price-features { list-style: none; margin-bottom: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .price-features li {
+    font-size: 14px;
+    color: var(--text-sec);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .price-features li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .price-btn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s, opacity 0.2s;
+    border: none;
+  }
+  .price-btn:hover { transform: translateY(-1px); opacity: 0.9; }
+  .price-btn.outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .price-btn.filled { background: var(--accent); color: #000; box-shadow: 0 0 30px rgba(0,210,255,0.3); }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    position: relative;
+    z-index: 1;
+    margin: 0 5% 100px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(0,210,255,0.1), rgba(0,100,200,0.1));
+    border: 1px solid var(--border-bright);
+    padding: 80px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(0,210,255,0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-banner h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cta-banner p {
+    font-size: 18px;
+    color: var(--text-sec);
+    margin-bottom: 36px;
+    font-weight: 300;
+    position: relative;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 40px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  footer .logo { font-size: 16px; }
+  .footer-copy { font-size: 13px; color: var(--text-dim); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-sec); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .products-grid { grid-template-columns: 1fr; }
+    .product-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 20px; }
+    .cta-banner { padding: 48px 24px; margin: 0 4% 60px; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Axell<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#" class="nav-cta">Start free →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">✦ AI-powered marketing studio</div>
+  <h1>Your brand. Every platform.<br><span class="highlight">Automatically.</span></h1>
+  <p class="hero-sub">Axell learns your brand voice in minutes and generates ads, social posts, emails, and videos that look like they came from a full creative team.</p>
+  <div class="hero-actions">
+    <a href="#" class="btn-primary">Start for free — no credit card</a>
+    <a href="#features" class="btn-ghost">See what it does →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">10×</span>
+      <span class="stat-label">Faster output</span>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Content types</span>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <span class="stat-num">95+</span>
+      <span class="stat-label">Languages</span>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">On-brand</span>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item"><span class="marquee-dot"></span>Facebook Ads</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Instagram Posts</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>TikTok Videos</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Email Campaigns</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>LinkedIn Content</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Ad Creatives</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Brand Voice</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>YouTube Shorts</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Facebook Ads</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Instagram Posts</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>TikTok Videos</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Email Campaigns</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>LinkedIn Content</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Ad Creatives</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Brand Voice</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>YouTube Shorts</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="fade-in">
+    <div class="section-label">What Axell creates</div>
+    <h2 class="section-title">Everything your brand needs.<br>Nothing you don't.</h2>
+    <p class="section-sub">Paste your website URL. Axell learns your brand in 60 seconds. Then it never stops creating.</p>
+  </div>
+
+  <div class="products-grid fade-in">
+
+    <div class="product-card featured">
+      <div>
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Ad Creatives</div>
+        <p class="card-desc">Generate scroll-stopping static and carousel ads for Facebook, Instagram, TikTok, and LinkedIn. Each one built around your brand voice — not a template. Unlimited variants for faster A/B testing.</p>
+        <div class="card-tags">
+          <span class="tag">Facebook</span>
+          <span class="tag">Instagram</span>
+          <span class="tag">TikTok</span>
+          <span class="tag">LinkedIn</span>
+          <span class="tag">Unlimited variants</span>
+        </div>
+      </div>
+      <div class="card-visual">
+        <div class="mock-img">🎯</div>
+        <div class="mock-bar accent"></div>
+        <div class="mock-bar med"></div>
+        <div class="mock-bar short"></div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="card-icon">📱</div>
+      <div class="card-title">Social Posts</div>
+      <p class="card-desc">A full week of on-brand posts and captions in one session. Swipe through ideas, pick what you love, and schedule directly. Never run out of content again.</p>
+      <div class="card-tags">
+        <span class="tag">Instagram</span>
+        <span class="tag">TikTok</span>
+        <span class="tag">Product scenes</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="card-icon">✉️</div>
+      <div class="card-title">Email Campaigns</div>
+      <p class="card-desc">Full email sequences — subject line, body, CTA — written in your voice. Welcome flows, promos, cart abandonment. Works with any email platform.</p>
+      <div class="card-tags">
+        <span class="tag">Welcome flows</span>
+        <span class="tag">Promotions</span>
+        <span class="tag">Subject line A/B</span>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="card-icon">🎬</div>
+      <div class="card-title">Video Ads</div>
+      <p class="card-desc">Paste your product URL and get a cinematic short-form video ad built around trending formats. Hooks, scripts, and visuals — all generated together.</p>
+      <div class="card-tags">
+        <span class="tag">TikTok</span>
+        <span class="tag">Reels</span>
+        <span class="tag">UGC-style</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" style="padding-top: 0;">
+  <div class="fade-in">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">From URL to campaign<br>in under 5 minutes.</h2>
+  </div>
+  <div class="steps fade-in">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-title">Paste your URL</div>
+      <p class="step-desc">Axell scans your website and builds a complete Brand Profile — your tone, audience, products, and messaging angles. Takes about 60 seconds.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-title">Pick what you need</div>
+      <p class="step-desc">Choose a content type — ad, post, email, or video. Select your product and goal. Axell generates multiple options instantly, all brand-matched.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-title">Edit, export, launch</div>
+      <p class="step-desc">Make any tweaks you need. Download your assets or send directly to your scheduler and email platform. No design skills required.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="padding-top: 0;">
+  <div class="fade-in" style="text-align: center; margin: 0 auto;">
+    <div class="section-label" style="text-align:center">Pricing</div>
+    <h2 class="section-title" style="text-align:center">Flat rate. No credit games.</h2>
+    <p class="section-sub" style="margin: 0 auto; text-align:center">Unlimited content generation on every plan. No per-asset charges.</p>
+  </div>
+
+  <div class="pricing-grid fade-in">
+    <div class="price-card">
+      <div class="price-name">Starter</div>
+      <div class="price-amount"><sup>$</sup>19</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>1 brand profile</li>
+        <li>Unlimited ad copy</li>
+        <li>Unlimited social posts</li>
+        <li>50 email campaigns/mo</li>
+        <li>Basic image generation</li>
+      </ul>
+      <a href="#" class="price-btn outline">Get started</a>
+    </div>
+
+    <div class="price-card popular">
+      <div class="popular-badge">Most popular</div>
+      <div class="price-name">Pro</div>
+      <div class="price-amount"><sup>$</sup>39</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>3 brand profiles</li>
+        <li>Unlimited everything</li>
+        <li>Video ad generation</li>
+        <li>Priority image quality</li>
+        <li>95+ languages</li>
+        <li>Direct Buffer/Klaviyo export</li>
+      </ul>
+      <a href="#" class="price-btn filled">Start Pro free</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name">Agency</div>
+      <div class="price-amount"><sup>$</sup>79</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>Up to 10 brand profiles</li>
+        <li>Everything in Pro</li>
+        <li>White-label exports</li>
+        <li>Client collaboration tools</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="#" class="price-btn outline">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner fade-in">
+  <h2>Stop staring at blank docs.<br>Start publishing.</h2>
+  <p>Join thousands of brands creating better content, faster.</p>
+  <a href="#" class="btn-primary" style="display:inline-block">Create your free account →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">Axell<span>.</span></a>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Support</a>
+  </div>
+  <p class="footer-copy">© 2026 Axell Design Studio. All rights reserved.</p>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
