@@ -1,17 +1,17 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #06060D;
-  --surface: #0D0D1A;
-  --surface2: #13131F;
-  --border: rgba(255,255,255,0.07);
-  --border-bright: rgba(0,210,255,0.25);
-  --accent: #00D2FF;
-  --accent-dim: rgba(0,210,255,0.12);
-  --accent-glow: rgba(0,210,255,0.06);
-  --text: #F0F0FF;
-  --text-sec: #7A7A9A;
-  --text-dim: #44445A;
+  --bg: #FFFFFF;
+  --surface: #F7F7F8;
+  --surface2: #EDEDEF;
+  --border: rgba(0,0,0,0.07);
+  --border-bright: rgba(229,23,63,0.25);
+  --accent: #E5173F;
+  --accent-dim: rgba(229,23,63,0.08);
+  --accent-glow: rgba(229,23,63,0.06);
+  --text: #111111;
+  --text-sec: #555555;
+  --text-dim: #888888;
   --sidebar-w: 240px;
 }
 
@@ -29,3 +29,35 @@ body {
 button { cursor: pointer; font-family: inherit; }
 input, textarea { font-family: inherit; }
 a { text-decoration: none; color: inherit; }
+
+input::placeholder, textarea::placeholder { color: #AAAAAA; }
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555555;
+  margin-bottom: 2px;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover {
+  background: rgba(0,0,0,0.04);
+  color: #111111;
+}
+.product-card {
+  background: #F7F7F8;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 12px;
+  padding: 24px;
+  display: block;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.product-card:hover {
+  border-color: rgba(229,23,63,0.3);
+  transform: translateY(-2px);
+}
